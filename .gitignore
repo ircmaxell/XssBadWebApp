@@ -1,2 +1,3 @@
 data/GuestBook/*.data
+data/Users/*.data
 _cache/templates_c/*.php
