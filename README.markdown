@@ -23,5 +23,8 @@ Requirements
 Known Vulnerabilities
 ---------------------
 
+ - On 404 Error Page
+    - Remote IP is displayed without escaping.  Data is pulled from the X--Forwarded-For Header
+
 *TODO: Create a list of known vulnerabilities here*
 
