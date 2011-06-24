@@ -23,21 +23,9 @@ namespace XssBadWebApp;
 
 require_once 'bootstrap.php';
 
-
-
-$app = new \XssBadWebApp\Application\Application;
-
-try {
-    
-    $app->setup();
-    
-    $app->run();
-    
-} catch (\Exception $e) {
-    $request = new \XssBadWebApp\Utilities\Request;
-    header('Status: 404 Not Found');
-    $view = new \XssBadWebApp\Views\TwigView('404_error');
-    $view->assign('referrer', $request->server('HTTP_REFERRER'));
-    $view->assign('ipAddress', $request->ipAddress());
-    $view->render();
-}
+header('Status: 404 Not Found');
+$request = new \XssBadWebApp\Utilities\Request;
+$view = new \XssBadWebApp\Views\TwigView('404_error');
+$view->assign('referrer', $request->server('HTTP_REFERRER'));
+$view->assign('ipAddress', $request->ipAddress());
+$view->render();
