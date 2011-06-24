@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !index.php$
+RewriteCond %{REQUEST_URI} !404.php$
+RewriteRule ^(.*)$ /404.php?request=$1 [NC,L,QSA]

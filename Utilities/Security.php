@@ -41,6 +41,17 @@ class Security {
         return $result;
     }
     
+    /**
+     * Hash the supplied data using the PBKDF2 key derivation method
+     *
+     * @param string $data       The data to hash
+     * @param string $salt       The salt to use when hashing
+     * @param string $algo       The hash algorithm to use
+     * @param int    $cycles     The number of times to run the algorithm (increases output length)
+     * @param int    $iterations The number of hash iterations to use for each run
+     * 
+     * @return string The hashed data
+     */
     public static function PBKDF2($data, $salt, $algo = 'sha256', $cycles = 2, $iterations = 5000) {
         $result = '';
         for ($i = 0; $i < $cycles; $i++) {
