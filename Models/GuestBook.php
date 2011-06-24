@@ -23,7 +23,7 @@ namespace XssBadWebApp\Models;
 
 use XssBadWebApp\Utilities\DataFile;
 
-class GuestBook {
+class GuestBook extends AbstractModel {
     
     protected static $dataFile = null;
     protected static $modelName = 'GuestBook';
@@ -33,47 +33,13 @@ class GuestBook {
     protected $location = '';
     protected $greeting = '';
     
-    /**
-     *
-     * @return \XssBadWebApp\Utilities\DataFile The data file
-     */
-    public static function getDataFile() {
-        if (is_null(static::$dataFile)) {
-            static::$dataFile = new DataFile(self::$modelName);
-        }
-        return static::$dataFile;
-    }
-    
-    public static function load($id) {
-        $model = null;
-        if ($id) {
-            $model = static::getDataFile()->get($id);
-        }
-        return $model ? $model : new static;
-    }
-    
-    public static function loadAll($dir = 1) {
-        $all = static::getDataFile()->getAll();
-        usort(
-            $all,
-            function($a, $b) use ($dir) {
-                if ($a->getId() == $b->getId()) {
-                    return 0;
-                }
-                return ($a->getId() < $b->getId()) ? -1 * $dir : $dir;
-            }
-        );
-        return $all;
-    }
-    
     public static function validate(array $data) {
         $errors = array(
-            'name' => 'Name cannot be empty',
             'location' => 'Location cannot be empty',
             'greeting' => 'Greeting cannot be empty',
         );
-        $data += array('name' => '', 'location' => '', 'greeting' => '');
-        foreach (array('name', 'location', 'greeting') as $var) {
+        $data += array('location' => '', 'greeting' => '');
+        foreach (array('location', 'greeting') as $var) {
             if (strlen($data[$var]) >= 5) {
                 unset($errors[$var]);
             }
@@ -124,10 +90,6 @@ class GuestBook {
     
     public function setName($new) {
         $this->name = $new;
-    }
-    
-    public function save() {
-        static::getDataFile()->set($this->id, $this);
     }
 
 }

@@ -23,14 +23,16 @@ namespace XssBadWebApp;
 
 require_once 'bootstrap.php';
 
-$request = new \XssBadWebApp\Utilities\Request($_GET, $_POST, $_SERVER);
 
-$controller = new \XssBadWebApp\Controllers\GuestBook($request);
+
+$app = new \XssBadWebApp\Application\Application;
 
 try {
-    $view = $controller->dispatch();
     
-    $view->render();
+    $app->setup();
+    
+    $app->run();
+    
 } catch (\Exception $e) {
     header('Status: 404 Not Found');
     $view = new \XssBadWebApp\Views\TwigView('404_error');

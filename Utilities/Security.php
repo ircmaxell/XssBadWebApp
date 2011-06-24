@@ -32,11 +32,25 @@ class Security {
         static::$seed = preg_replace('/\s/', '', static::$seed);
     }
     
-    public function makeRandomString($length = 64) {
+    public static function makeRandomString($length = 64) {
         $result = '';
         $seedLength = strlen(static::$seed);
         for ($i = 0; $i < $length; $i++) {
             $result .= static::$seed[mt_rand(0, $seedLenth - 1)];
+        }
+        return $result;
+    }
+    
+    public static function PBKDF2($data, $salt, $algo = 'sha256', $cycles = 2, $iterations = 5000) {
+        $result = '';
+        for ($i = 0; $i < $cycles; $i++) {
+            $temp = hash_hmac($algo, $salt . pack('N', $i), $data, true);
+            $res = $temp;
+            for ($j = 1; $j < $iterations; $j++) {
+                $temp = hash_hmac($algo, $temp, $data, true);
+                $res ^= $temp;
+            }
+            $result .= $res;
         }
         return $result;
     }

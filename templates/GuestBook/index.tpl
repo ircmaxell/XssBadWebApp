@@ -43,6 +43,10 @@
                 </style>
 	</head>
 	<body>
+		{if $message}<h3>{$message}</h3>{/if}
+		<div>
+			<h3>Welcome To The GuestBook: {if $user->isRegistered()}{$user->getName()} <a href="index.php?controller=user&action=logout">Logout</a>{else}Guest, Please <a href="index.php?controller=user&action=login">Login</a>{/if}</h3>
+		</div>
 		<table>
 			<tr>
 				<th>Name</th>
@@ -63,7 +67,9 @@
 		<p>{if $current_page > 1}<a href="index.php?page={$prev_page}">{else}<span>{/if}Previous Page{if $current_page > 1}</a>{else}</span>{/if}&nbsp;
 			{if $current_page < $pages}<a href="index.php?page={$next_page}">{else}<span>{/if}Next Page{if $current_page < $pages}</a>{else}</span>{/if}
 			 of {$pages} Total Pages</p>
-		<a href="index.php?action=add">Add a new entry!</a>
+		{if $user->isRegistered()}
+			<a href="index.php?action=add">Add a new entry!</a>
+		{/if}
 
 	</body>
 </html>

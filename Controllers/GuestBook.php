@@ -24,6 +24,7 @@ namespace XssBadWebApp\Controllers;
 use XssBadWebApp\Models\GuestBook as GuestBookModel;
 use XssBadWebApp\Views\SmartyView;
 use XssBadWebApp\Views\PhpView;
+use XssBadWebApp\Utilities\Security;
 use \LimitIterator;
 use \ArrayIterator;
 use \RuntimeException;
@@ -32,17 +33,29 @@ class GuestBook {
 
     protected $pageSize = 5;
     protected $request = null;
+    protected $session = null;
     
-    public function __construct(\XssBadWebApp\Utilities\Request $request) {
+    public function __construct(
+        \XssBadWebApp\Utilities\Request $request,
+        \XssBadWebApp\Utilities\Session $session
+    ) {
         $this->request = $request;
+        $this->session = $session;
     }
     
     public function add(array $errors = array()) {
+        if (!$this->session->get('user')->isRegistered()) {
+            header('Location: index.php');
+            exit();
+        }
         $view = new PHPView('GuestBook/add');
         $data = $this->request->post('gb_item', array());
         $data += array('id' => 0, 'name' => '', 'location' => '', 'greeting' => '');
         $view->assignAll($data);
         $view->assign('errors', $errors);
+        $token = Security::makeRandomString();
+        $this->session->set('csrf.token', $token);
+        $view->assign('csrf', $token);
         return $view;
     }
     
@@ -56,6 +69,10 @@ class GuestBook {
     }
     
     public function edit() {
+        if (!$this->session->get('user')->isRegistered()) {
+            header('Location: index.php');
+            exit();
+        }
         $id = $this->request->get('id', 0);
         $data = GuestBookModel::load($id);
         $this->request->set('gb_item', $data->asArray(), 'post');
@@ -78,10 +95,20 @@ class GuestBook {
         $view->assign('next_page', floor($start / $this->pageSize) + 2);
         $view->assign('pages', ceil(count($data) / $this->pageSize));
         $view->assign('data', $it);
+        $view->assign('user', $this->session->get('user'));
+        $view->assign('message', $this->request->get('message', ''));
         return $view;
     }
     
     public function save() {
+        if (!$this->session->get('user')->isRegistered()) {
+            header('Location: index.php');
+            exit();
+        }
+        $token = $this->session->get('csrf.token', null);
+        if (!$token || !$this->request->post($token)) {
+            throw new RuntimeException('Invalid CSRF Token');
+        }
         $data = $this->request->post('gb_item', array());
         $errors = GuestBookModel::validate($data);
         if (!empty($errors)) {
@@ -89,7 +116,7 @@ class GuestBook {
         }
         $data['id'] = isset($data['id']) && $data['id'] ? $data['id'] : 0;
         $model = GuestBookModel::load($data['id']);
-        $model->setName($data['name']);
+        $model->setName($this->session->get('user')->getName());
         $model->setLocation($data['location']);
         $model->setGreeting($data['greeting']);
         $model->save();

@@ -33,10 +33,6 @@
         <form action="index.php?action=save" method="post">
             <table>
                 <tr>
-    				<td>Name: </td>
-    				<td><input name="gb_item[name]" value="<?php echo $name; ?>" <?php if (isset($errors['name'])) { ?>class="error"<?php } ?>/></td>
-    			</tr>
-                <tr>
     				<td>Location: </td>
     				<td><input name="gb_item[location]" value="<?php echo $location; ?>" <?php if (isset($errors['location'])) { ?>class="error"<?php } ?>/></td>
     			</tr>
@@ -46,6 +42,7 @@
     			</tr>
     		</table>
             <input type="hidden" name="gb_item[id]" value="<?php echo $id; ?>" />
+            <input type="hidden" name="<?php echo $csrf; ?>" value="1" />
             <input type="submit" name="Save" value="Save" />
         </form>
 

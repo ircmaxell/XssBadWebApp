@@ -21,6 +21,58 @@
 
 namespace XssBadWebApp\Models;
 
+use XssBadWebApp\Utilities\Security;
+
 class User {
+    
+    protected $name = '';
+    protected $password = '';
+    protected $registered = 0;
+    
+    
+    private $algo = 'sha256';
+    private $cycles = 2;
+    private $iterations = 5000;
+    private $salt = '';
+    
+    public function checkPassword($password) {
+        $test = Security::PBKDF2($password, $this->salt, $this->algo, $this->cycles, $this->iterations);
+        return $this->password == $test;
+    }
+    
+    public function getId() {
+        return $this->name;
+    }
+    
+    public function getName() {
+        return $this->name;
+    }
+    
+    public function getPassword() {
+        return $this->password;
+    }
+    
+    public function isRegistered() {
+        return $this->registered == 1;
+    }
+    
+    public function setName($name) {
+        $this->name = $name;
+    }
+    
+    public function setPassword($new) {
+        $this->salt = Security::makeRandomString(10);
+        $this->password = Security::PBKDF2(
+            $new, 
+            $this->salt, 
+            $this->algo, 
+            $this->cycles, 
+            $this->iterations
+        );
+    }
+    
+    public function setRegistered($new) {
+        $this->registered = $new ? 1 : 0;
+    }
     
 }
