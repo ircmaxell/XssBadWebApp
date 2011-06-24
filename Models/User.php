@@ -29,6 +29,7 @@ class User {
     protected $password = '';
     protected $registered = 0;
     
+    protected static $modelName = 'User';
     
     private $algo = 'sha256';
     private $cycles = 2;
