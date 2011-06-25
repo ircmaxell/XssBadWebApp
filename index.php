@@ -34,7 +34,7 @@ try {
     $app->run();
     
 } catch (\Exception $e) {
-    $request = new \XssBadWebApp\Utilities\Request;
+    $request = new \XssBadWebApp\Utilities\Request($_GET, $_POST, $_SERVER);
     header('Status: 404 Not Found');
     $view = new \XssBadWebApp\Views\TwigView('404_error');
     $view->assign('referrer', $request->server('HTTP_REFERRER'));

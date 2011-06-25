@@ -51,8 +51,6 @@ abstract class AbstractModel {
         return $all;
     }
     
-    abstract public static function validate(array $data);
-    
     abstract public function asArray();
 
     abstract public function getId();

@@ -57,6 +57,7 @@ class User {
         $name = $this->request->post('username');
         $password = $this->request->post('password');
         $user = UserModel::load($name);
+        var_dump($name, $user, $user->isRegistered(), $user->checkPassword($password));
         if ($user->isRegistered() && $user->checkPassword($password)) {
             $this->session->set('user', $user);
             $this->session->regenerate();
@@ -84,7 +85,7 @@ class User {
             $user->setPassword($password);
             $user->setRegistered(true);
             $user->save();
-            header('Location: index.php?controller=User&action=login&message=Registered');
+            header('Location: index.php?controller=User&action=login&message=Registered+Successfully');
             die();
         } elseif ($password != $conf || !$password) {
             $message = 'Passwords must match and be non-empty';
@@ -116,10 +117,10 @@ class User {
             exit();
         }
         $view = new SmartyView('User/register');
-        $token = Security::makeRandomString();
+        $token = base64_encode(Security::makeRandomString());
         $this->session->set('csrf.token', $token);
         $view->assign('csrf', $token);
-        $this->assign('message', $message);
+        $view->assign('message', $message);
         return $view;
     }
     

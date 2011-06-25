@@ -36,7 +36,7 @@ class Security {
         $result = '';
         $seedLength = strlen(static::$seed);
         for ($i = 0; $i < $length; $i++) {
-            $result .= static::$seed[mt_rand(0, $seedLenth - 1)];
+            $result .= static::$seed[mt_rand(0, $seedLength - 1)];
         }
         return $result;
     }

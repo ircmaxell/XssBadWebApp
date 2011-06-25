@@ -46,6 +46,8 @@
     		</table>
             <input type="submit" name="login" value="Login" />
         </form>
+        
+        <p>Or <a href="index.php?controller=User&action=register">Register Now</a></p>
 
 	</body>
 </html>

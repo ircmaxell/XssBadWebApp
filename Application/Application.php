@@ -4,7 +4,7 @@ namespace XssBadWebApp\Application;
 
 use \XssBadWebApp\Utilities\Request;
 use \XssBadWebApp\Utilities\Session;
-use \XssBadWebApp\Models\User;
+use \XssBadWebApp\Models\User as UserModel;
 
 class Application {
     

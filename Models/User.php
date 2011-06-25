@@ -23,7 +23,7 @@ namespace XssBadWebApp\Models;
 
 use XssBadWebApp\Utilities\Security;
 
-class User {
+class User extends AbstractModel {
     
     protected $name = '';
     protected $password = '';
@@ -35,6 +35,14 @@ class User {
     private $cycles = 2;
     private $iterations = 5000;
     private $salt = '';
+    
+    public function asArray() {
+        return array(
+            'name' => $this->name,
+            'password' => $this->password,
+            'registered' => $this->registered
+        );
+    }
     
     public function checkPassword($password) {
         $test = Security::PBKDF2($password, $this->salt, $this->algo, $this->cycles, $this->iterations);

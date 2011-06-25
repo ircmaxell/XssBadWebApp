@@ -24,7 +24,7 @@ namespace XssBadWebApp;
 require_once 'bootstrap.php';
 
 header('Status: 404 Not Found');
-$request = new \XssBadWebApp\Utilities\Request;
+$request = new \XssBadWebApp\Utilities\Request($_GET, $_POST, $_SERVER);
 $view = new \XssBadWebApp\Views\TwigView('404_error');
 $view->assign('referrer', $request->server('HTTP_REFERRER'));
 $view->assign('ipAddress', $request->ipAddress());
