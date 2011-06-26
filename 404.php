@@ -28,4 +28,6 @@ $request = new \XssBadWebApp\Utilities\Request($_GET, $_POST, $_SERVER);
 $view = new \XssBadWebApp\Views\TwigView('404_error');
 $view->assign('referrer', $request->server('HTTP_REFERRER'));
 $view->assign('ipAddress', $request->ipAddress());
+$view->assign('url', $request->server('REQUEST_URI'));
+$view->assign('action', '');
 $view->render();

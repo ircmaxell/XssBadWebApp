@@ -38,6 +38,8 @@ try {
     header('Status: 404 Not Found');
     $view = new \XssBadWebApp\Views\TwigView('404_error');
     $view->assign('referrer', $request->server('HTTP_REFERRER'));
+    $view->assign('url', $request->server('REQUEST_URI'));
+    $view->assign('action', $request->get('action'));
     $view->assign('ipAddress', $request->ipAddress());
     $view->render();
 } catch (\Exception $e) {

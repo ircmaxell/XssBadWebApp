@@ -30,15 +30,15 @@
                 </style>
 	</head>
 	<body>
-        <form action="index.php?action=save" method="post">
+        <form action="index.php?action=save" method="post" id="addform">
             <table>
                 <tr>
     				<td>Location: </td>
-    				<td><input name="gb_item[location]" value="<?php echo $location; ?>" <?php if (isset($errors['location'])) { ?>class="error"<?php } ?>/></td>
+    				<td><input id="location" name="gb_item[location]" value="<?php echo $location; ?>" <?php if (isset($errors['location'])) { ?>class="error"<?php } ?>/></td>
     			</tr>
                 <tr>
     				<td>Greeting: </td>
-                    <td><textarea name="gb_item[greeting]" <?php if (isset($errors['greeting'])) { ?>class="error"<?php } ?>><?php echo $greeting; ?></textarea></td>
+                    <td><textarea id="greeting" name="gb_item[greeting]" <?php if (isset($errors['greeting'])) { ?>class="error"<?php } ?>><?php echo $greeting; ?></textarea></td>
     			</tr>
     		</table>
             <input type="hidden" name="gb_item[id]" value="<?php echo $id; ?>" />

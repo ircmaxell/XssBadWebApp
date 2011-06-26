@@ -24,12 +24,16 @@
         <title>404 - Page Not Found</title>
     </head>
     <body>
+        <div class="content">
 		{% autoescape false %}
-        <h1>Error: 404 Not Found</h1>
-        <h3>The page you are looking for does not exist.</h3>
-        <p>Please tell the page that referred you to here to update their links:</p>
-        <h4>Referred By: {{ referrer }}</h4>
-		<p><small>Request From: {{ ipAddress }}</small></p>
+            <h1>Error: 404 Not Found</h1>
+            <h3>The page you are looking for does not exist.</h3>
+            <p>{{ url }}</p>
+            <p>Action: {{ action }}</p>
+            <p>Please tell the page that referred you to here to update their links:</p>
+            <h4>Referred By: {{ referrer }}</h4>
+    		<p><small>Request From: {{ ipAddress }}</small></p>
 		{% endautoescape %}
+        </div>
     </body>
 </html>
