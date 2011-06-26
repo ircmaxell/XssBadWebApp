@@ -37,6 +37,10 @@ class Request {
         return $this->getArray($name, $default, $this->get);
     }
     
+    public function getRawArray($scope) {
+        return isset($this->$scope) ? $this->$scope : array();
+    }
+    
     public function ipAddress() {
         return $this->server('HTTP_X_FORWARDED_FOR', $this->server('REMOTE_ADDR'));
     }

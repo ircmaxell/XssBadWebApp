@@ -25,6 +25,7 @@ use XssBadWebApp\Models\User as UserModel;
 use XssBadWebApp\Views\SmartyView;
 use XssBadWebApp\Views\PhpView;
 use XssBadWebApp\Utilities\Security;
+use XssBadWebApp\Exceptions\NotFoundException;
 use \RuntimeException;
 
 class User {
@@ -46,7 +47,7 @@ class User {
         if ($action != 'dispatch' && is_callable(array($this, $action))) {
             return $this->$action();
         }
-        throw new RuntimeException('Invalid Action');
+        throw new NotFoundException('Invalid Action');
     }
 
     public function doLogin() {

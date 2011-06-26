@@ -25,6 +25,7 @@ use XssBadWebApp\Models\GuestBook as GuestBookModel;
 use XssBadWebApp\Views\SmartyView;
 use XssBadWebApp\Views\PhpView;
 use XssBadWebApp\Utilities\Security;
+use XssBadWebApp\Exceptions\NotFoundException;
 use \LimitIterator;
 use \ArrayIterator;
 use \RuntimeException;
@@ -53,7 +54,7 @@ class GuestBook {
         $data += array('id' => 0, 'name' => '', 'location' => '', 'greeting' => '');
         $view->assignAll($data);
         $view->assign('errors', $errors);
-        $token = Security::makeRandomString();
+        $token = base64_encode(Security::makeRandomString());
         $this->session->set('csrf.token', $token);
         $view->assign('csrf', $token);
         return $view;
@@ -65,7 +66,7 @@ class GuestBook {
         if ($action != 'dispatch' && is_callable(array($this, $action))) {
             return $this->$action();
         }
-        throw new RuntimeException('Invalid Action');
+        throw new NotFoundException('Invalid Action');
     }
     
     public function edit() {

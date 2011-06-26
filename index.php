@@ -33,11 +33,18 @@ try {
     
     $app->run();
     
-} catch (\Exception $e) {
+} catch (\XssBadWebApp\Exceptions\NotFoundException $e) {
     $request = new \XssBadWebApp\Utilities\Request($_GET, $_POST, $_SERVER);
     header('Status: 404 Not Found');
     $view = new \XssBadWebApp\Views\TwigView('404_error');
     $view->assign('referrer', $request->server('HTTP_REFERRER'));
     $view->assign('ipAddress', $request->ipAddress());
+    $view->render();
+} catch (\Exception $e) {
+    $request = new \XssBadWebApp\Utilities\Request($_GET, $_POST, $_SERVER);
+    header('Status: 500 Internal Server Error');
+    $view = new \XssBadWebApp\Views\SmartyView('500_error');
+    $view->assign('request', $request);
+    $view->assign('exception', $e);
     $view->render();
 }
